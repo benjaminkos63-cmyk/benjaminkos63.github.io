@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RMS vs ROE · Poland Apparel 2025</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: one slide-shaped chart panel, controls strip above, notes below. Deliberately single light theme (consulting-slide look). */
+:root{
+  --bg:#ffffff; --ink:#1d1f21; --muted:#5f6368; --zone:#dcdcdc; --band:#ffffff; --rule:#1d1f21;
+  --accent:#b5174b; --accent-soft:#e7a3b6; --hover:#f3f3f3; --line:#c9c9c9;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","Arial Narrow",var(--sans);
+  color-scheme:light;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1{font-size:clamp(18px,2.3vw,24px);font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.005em}
+.sub{color:var(--muted);margin:4px 0 0;font-size:13.5px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-size:13px;border-top:1px solid var(--rule);border-bottom:1px solid var(--line);padding:10px 0}
+.controls .lbl{font-family:var(--cond);text-transform:uppercase;letter-spacing:.06em;font-size:11.5px;color:var(--muted)}
+.grp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2px;padding:5px 10px;font:inherit;font-size:12.5px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:#fbeef2}
+.chip:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sw{width:10px;height:10px;border-radius:50%;border:1.5px solid currentColor;background:repeating-linear-gradient(45deg,currentColor 0 1.5px,transparent 1.5px 4px)}
+input[type=range]{accent-color:var(--accent);width:120px}
+.val{font-variant-numeric:tabular-nums;min-width:3.5em;display:inline-block}
+.chartbox{overflow-x:auto}
+svg{display:block;width:100%;min-width:600px;height:auto;font-family:var(--sans)}
+.ax text{font-size:13px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.axt{font-size:14px;fill:var(--ink)}
+.bub{cursor:pointer;transition:opacity .15s}
+.bub .ring{opacity:0;transition:opacity .15s}.bub.on .ring,.bub:focus .ring{opacity:1}.bub:focus{outline:none}
+.dim .bub:not(.on){opacity:.25}
+.lab{font-size:13px;fill:var(--ink);pointer-events:none}
+.lab.white{fill:#fff;font-weight:600}
+.lab.boxed{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+.lead{stroke:var(--ink);stroke-width:1;fill:none}
+.tip{position:fixed;pointer-events:none;background:var(--bg);border:1px solid var(--rule);box-shadow:0 4px 14px rgba(0,0,0,.12);padding:10px 12px;font-size:12.5px;min-width:220px;z-index:5}
+.tip h3{margin:0 0 6px;font-size:13.5px;font-weight:600}
+.tip dl{display:grid;grid-template-columns:auto auto;gap:2px 14px;margin:0}
+.tip dt{color:var(--muted)} .tip dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.tip p{margin:6px 0 0;color:var(--muted);max-width:260px;font-size:11.5px}
+.notes{font-size:11.5px;color:var(--muted);line-height:1.5;max-width:110ch;margin:0}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;font-size:12.5px;width:100%;font-variant-numeric:tabular-nums}
+th{font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11px;color:var(--muted);text-align:right;border-bottom:1px solid var(--rule);padding:6px 8px;cursor:pointer;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td{padding:5px 8px;border-bottom:1px solid #ececec;text-align:right;white-space:nowrap}
+tr:hover td,tr.on td{background:var(--hover)}
+tr.target td:first-child{color:var(--accent);font-weight:600}
+td .pos{color:var(--muted);font-size:11.5px}
+details summary{cursor:pointer;font-size:13px;font-weight:500}
+.builder{border-top:1px solid var(--rule);padding-top:14px;display:flex;flex-direction:column;gap:12px}
+.builder h2{font-size:16px;font-weight:600;margin:0}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 24px}
+fieldset{border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:8px}
+legend,.bgrid label{font-family:var(--cond);text-transform:uppercase;letter-spacing:.05em;font-size:11px;color:var(--muted);padding:0}
+legend.mt{margin-top:6px}
+.opt{text-transform:none;letter-spacing:0;font-family:var(--sans);font-style:italic}
+.bgrid label{display:flex;flex-direction:column;gap:4px;min-width:0}
+.bgrid input[type=text],.bgrid input[type=number],select{font:inherit;font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:2px;padding:6px 8px;width:100%;box-sizing:border-box;font-variant-numeric:tabular-nums}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;font-size:13px}
+.checks label{display:flex;flex-direction:row;align-items:center;gap:6px;font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)}
+.checks input{accent-color:var(--accent)}
+.hint{margin:0;font-size:11.5px;color:var(--muted)}
+.preview{font-size:13px;background:var(--hover);padding:8px 10px;font-variant-numeric:tabular-nums;line-height:1.5}
+.err{margin:0;color:var(--accent);font-size:12.5px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.primary{background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:2px;padding:7px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.chip .x{margin-left:2px;color:var(--muted);font-weight:600;padding:0 2px}
+.chip .x:hover{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.bub,.bub circle{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Return on Equity and Relative Market Share – clothing, footwear &amp; accessories, Poland 2025</h1>
+    <p class="sub">Return on Equity (%) vs. relative market share (sales in scope, log scale). Bubble area = sales in scope 2025. Hover a bubble for details.</p>
+  </header>
+
+  <div class="controls" role="group" aria-label="Chart controls">
+    <div class="grp"><span class="lbl">Scenarios on chart</span><span id="scen" class="grp"></span></div>
+    <div class="grp"><label class="lbl" for="hw">Band ±</label><input id="hw" type="range" min="0" max="30" step="0.1" value="15.7"><span class="val" id="hwv">15.7 pp</span><button type="button" class="chip" id="hw1">1σ</button></div>
+    <div class="grp"><span class="lbl">Format</span><button type="button" class="chip" data-fmt="1100x620" title="Same proportions as a 13.33 × 7.5 in slide">16:9 wide</button><button type="button" class="chip" data-fmt="827x620" title="Same proportions as a 10 × 7.5 in slide">4:3 standard</button><label class="lbl" for="fw">Width</label><input id="fw" type="range" min="600" max="1600" step="1"><label class="lbl" for="fh">Height</label><input id="fh" type="range" min="360" max="1000" step="1"><span class="val" id="fv"></span></div>
+    <div class="grp"><span class="lbl">Labels</span><button class="chip" id="labels" aria-pressed="true">Show</button></div>
+  </div>
+
+  <div class="chartbox"><svg id="chart" viewBox="0 0 1100 620" role="img" aria-label="Bubble chart of return on equity against relative market share for Polish apparel retailers, 2025"></svg></div>
+
+  <section class="builder" aria-labelledby="bh">
+    <div>
+      <h2 id="bh">Build an M&amp;A scenario</h2>
+      <p class="sub">Combine any companies on the chart, or add a company that isn't on it. Pro forma = sum of sales, net income and average equity, adjusted by the synergies you enter. RMS is measured against the largest remaining competitor. Scenarios are saved in this browser.</p>
+    </div>
+    <form id="bf" class="bgrid" novalidate>
+      <fieldset>
+        <legend>Acquirer</legend>
+        <select id="b-acq" aria-label="Acquirer"></select>
+        <legend class="mt">Merge with</legend>
+        <div id="b-partners" class="checks"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Company not on the chart <span class="opt">optional</span></legend>
+        <label>Name<input id="b-cname" type="text" placeholder="e.g. Target X"></label>
+        <div class="three">
+          <label>Sales in scope<input id="b-cs" type="number" step="any" placeholder="PLN m"></label>
+          <label>Net income<input id="b-cni" type="number" step="any" placeholder="PLN m"></label>
+          <label>Avg equity<input id="b-ceq" type="number" step="any" placeholder="PLN m"></label>
+        </div>
+        <legend class="mt">Adjustments <span class="opt">optional</span></legend>
+        <div class="three">
+          <label>Net income synergies<input id="b-syn" type="number" step="any" value="0" aria-describedby="h-syn"></label>
+          <label>Sales lost to overlap<input id="b-loss" type="number" step="any" min="0" max="100" value="0"></label>
+          <label>Equity added / paid<input id="b-deq" type="number" step="any" value="0"></label>
+        </div>
+        <p class="hint" id="h-syn">PLN m per year, except sales lost (% of combined sales). Equity: positive for new equity issued, negative for cash paid out of equity.</p>
+      </fieldset>
+      <fieldset class="actions">
+        <label>Scenario name<input id="b-name" type="text" placeholder="Auto: Modivo + …"></label>
+        <div id="b-preview" class="preview" aria-live="polite"></div>
+        <p id="b-err" class="err" hidden></p>
+        <div class="btns"><button type="submit" class="primary" id="b-add">Add to chart</button><button type="button" class="chip" id="b-reset">Restore workbook scenarios</button></div>
+      </fieldset>
+    </form>
+  </section>
+
+  <p class="notes">Note: ROE = net income / average equity, latest fiscal year. Polish entities from eKRS where available (Inditex = sum of Polish subsidiaries; Zalando = Zalando OpCo Polska); Modivo and LPP from company reports; VRG = VRG SA standalone; Shein allocated from group (HK prospectus). Relative market share = own sales in scope ÷ sales of the largest competitor (leader: ÷ #2). Bubble area = sales in scope 2025 (PLN m). Normative band = log trend of ROE on RMS across 13 companies, Decathlon excluded as an outlier (ROE = <span id="eq"></span>), ± 1 standard deviation of the residuals (σ = <span id="sig"></span> pp). Fit is weak (R² ≈ 0.26): read the band as a guide, not a precise benchmark. RMS is based on sales value, not units. Hatched = illustrative pro forma combinations (sums of the companies' figures plus any synergies entered; no view on availability). Source: Modivo market model, sheet “RMS vs. ROE” (24 Nov).</p>
+
+  <details open>
+    <summary>Data table</summary>
+    <div class="tablewrap"><table id="tbl"><thead></thead><tbody></tbody></table></div>
+  </details>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const TAM = 70926.00624;
+// From sheet "RMS vs . ROE", rows 9–22 (sales PLN m, net income PLN m, avg equity PLN m, RMS x, ROE)
+const CO = [
+ {id:"modivo",name:"Modivo",full:"Modivo Group",s:6351.7448,ni:21.8,eq:1952.4,rms:0.6982072325,roe:0.01116574472,c:"#b5174b",lc:"white",lab:[0,0,"c"],note:"Target. CCC + HalfPrice + MODIVO segment; bottom-up numbers in scope."},
+ {id:"lpp",name:"LPP",full:"LPP",s:9097.22,ni:1617,eq:5523,rms:1.432239532,roe:0.2927756654,c:"#333333",lc:"white",lab:[0,0,"c"],note:"Market leader. Sinsay, Reserved, Cropp, House, Mohito."},
+ {id:"pepco",name:"Pepco",full:"Pepco Group",s:3114.780963,ni:479.9,eq:1273.35,rms:0.34238822,roe:0.3768798838,c:"#f1e6c4",lab:[-55,62,"s"],note:"Pepco only (Dealz excluded in market model)."},
+ {id:"inditex",name:"Inditex",full:"Inditex",s:4283.473545,ni:388.55,eq:791.01,rms:0.4708552223,roe:0.4912074436,c:"#8a8a8a",lab:[0,0,"c"],note:"Sum of Polish subsidiaries (eKRS); Zara Home excluded."},
+ {id:"hm",name:"H&M",full:"H&M Group",s:3154.957632,ni:123.928,eq:281.252,rms:0.3468045878,roe:0.4406297555,c:"#b0b0b0",lab:[-70,-50,"w"],note:"H&M, COS, & Other Stories."},
+ {id:"shein",name:"Shein",full:"Roadget Business Pte Ltd (Shein)",s:1803.804858,ni:113.6391139,eq:562.41,rms:0.1982808878,roe:0.2020574206,c:"#e8d3c3",lab:[-40,-46,"w"],note:"Revenue is an estimate in the market model (Euromonitor e-com share)."},
+ {id:"decathlon",name:"Decathlon",full:"Decathlon",s:1401.459967,ni:123.290321,eq:149.2542005,rms:0.1540536523,roe:0.8260425542,c:"#cfd9cc",lab:[45,0,"e"]},
+ {id:"deichmann",name:"Deichmann",full:"Deichmann",s:1052.171571,ni:90.25,eq:276.265,rms:0.1156585827,roe:0.3266790943,c:"#9e9e9e",lab:[-40,0,"w"]},
+ {id:"kik",name:"KiK",full:"KiK",s:723.6101957,ni:-3.23555973,eq:53.72887345,rms:0.07954190353,roe:-0.06022012975,c:"#f2f2f2",lab:[22,22,"e"]},
+ {id:"ca",name:"C&A",full:"C&A",s:375.3133957,ni:5.94,eq:96.65,rms:0.04125583373,roe:0.06145887222,c:"#d3dbe6",lab:[0,-30,"n"],note:"Fiscal year Mar–Feb, treated as 2025."},
+ {id:"vrg",name:"VRG",full:"VRG",s:652.526,ni:8.12,eq:672.425,rms:0.07172806638,roe:0.01207569617,c:"#ececec",lab:[30,25,"e"],note:"VRG SA standalone. Jewellery (W.Kruk) removed via % outside TAM."},
+ {id:"answear",name:"Answear",full:"Answear",s:416.32023,ni:9.31,eq:228.29,rms:0.04576345631,roe:0.04078146218,c:"#ead6c6",lab:[-50,26,"w"]},
+ {id:"zalando",name:"Zalando",full:"Zalando",s:2803.242244,ni:23.86,eq:285.03,rms:0.3081427342,roe:0.08371048662,c:"#d3dde8",lab:[0,62,"s"],note:"Zalando OpCo Polska. Revenue is an estimate in the market model (Euromonitor e-com share)."},
+ {id:"tkmaxx",name:"TK Maxx",full:"TK Maxx",s:1584.7278,ni:51.26,eq:395.6,rms:0.174199129,roe:0.1295753286,c:"#dfe6d6",lab:[-55,36,"w"]},
+];
+// Rows 35–37: pro forma Modivo + partner, RMS vs largest remaining competitor (LPP)
+const SC = [
+ {id:"pf-answear",name:"Modivo + Answear",partner:"Answear",s:6768.06503,ni:31.11,eq:2180.69,rms:0.7439706888,roe:0.01426612678,vs:9097.22,lab:[-130,-120,"n"],on:true},
+ {id:"pf-deichmann",name:"Modivo + Deichmann",partner:"Deichmann",s:7403.916371,ni:112.05,eq:2228.665,rms:0.8138658152,roe:0.05027673518,vs:9097.22,lab:[25,-180,"n"],on:true},
+ {id:"pf-zalando",name:"Modivo + Zalando",partner:"Zalando",s:9154.987044,ni:45.66,eq:2237.43,rms:1.006349967,roe:0.02040734235,vs:9097.22,lab:[120,-52,"n"],on:true},
+];
+// Scenario definitions (inputs only); values are recomputed from CO so they match the sheet's pro forma logic.
+const DEFAULT_SCEN = SC.map(s=>({id:s.id,acq:"modivo",partners:[CO.find(c=>c.name===s.partner).id],custom:null,syn:0,loss:0,deq:0,name:s.name,lab:s.lab,on:true}));
+const LS_KEY="rmsroe.scenarios.v1";
+let scenarios;
+try{scenarios=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){}
+if(!Array.isArray(scenarios)) scenarios=DEFAULT_SCEN.map(s=>({...s}));
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(scenarios))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const byId=id=>CO.find(c=>c.id===id);
+function calc(sc){
+  const members=[sc.acq,...sc.partners].map(byId).filter(Boolean);
+  const cu=sc.custom;
+  let s=members.reduce((a,c)=>a+c.s,0)+(cu?cu.s:0);
+  s*=1-(sc.loss||0)/100;
+  const ni=members.reduce((a,c)=>a+c.ni,0)+(cu?cu.ni:0)+(sc.syn||0);
+  const eq=members.reduce((a,c)=>a+c.eq,0)+(cu?cu.eq:0)+(sc.deq||0);
+  const rest=CO.filter(c=>!members.includes(c)).sort((a,b)=>b.s-a.s);
+  const top=rest[0];
+  const rms=s/top.s, roe=eq>0?ni/eq:NaN;
+  const parts=[...members.map(c=>c.name),...(cu?[cu.name]:[])];
+  return {...sc,kind:'pf',s,ni,eq,rms,roe,vs:top.s,vsName:top.name,parts,name:sc.name||parts.join(' + ')};
+}
+const visibleScen=()=>scenarios.filter(s=>s.on).map(calc).filter(d=>isFinite(d.roe)&&d.rms>0);
+
+// Trend: ROE = a + b·ln(RMS), OLS over the 14 companies (matches sheet S5/S6)
+// Normative band: fit excludes outliers (Decathlon: ROE 83% on a thin PLN 149m equity base); half-width = 1σ of fit residuals.
+const OUTLIERS=["decathlon"];
+const FIT=CO.filter(c=>!OUTLIERS.includes(c.id));
+const n=FIT.length, xs=FIT.map(d=>Math.log(d.rms)), ys=FIT.map(d=>d.roe);
+const mx=xs.reduce((a,b)=>a+b)/n, my=ys.reduce((a,b)=>a+b)/n;
+const B=xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0)/xs.reduce((s,x)=>s+(x-mx)**2,0), A=my-B*mx;
+const SIGMA=Math.sqrt(xs.reduce((s,x,i)=>s+(ys[i]-(A+B*x))**2,0)/(n-1))*100;
+const SIG1=Math.round(SIGMA*10)/10;
+document.getElementById('eq').textContent=`${(A*100).toFixed(1)}% + ${(B*100).toFixed(1)} pp × ln(RMS)`;
+document.getElementById('sig').textContent=SIG1.toFixed(1);
+CO.find(c=>c.id==="decathlon").note="Outlier: excluded from the trend fit and σ (ROE driven by a thin equity base of PLN 149m).";
+
+// Geometry
+// W,H = chart canvas in px, set by the Format controls. Font sizes and bubble radii stay fixed, so the plot area squeezes or stretches.
+let W=1100,H=620;const M={l:70,r:40,t:20,b:62};
+let X0=0.02,X1=2.2;const Y0=-10,Y1=95;
+let pw, ph;
+function geom(){pw=W-M.l-M.r;ph=H-M.t-M.b;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.maxWidth=W+'px';}
+const sx=v=>M.l+(Math.log(v)-Math.log(X0))/(Math.log(X1)-Math.log(X0))*pw;
+const sy=v=>M.t+(Y1-v)/(Y1-Y0)*ph;
+const RK=62/Math.sqrt(9097.22); // LPP ≈ 62px radius
+const rr=s=>RK*Math.sqrt(s);
+const fmt=(v,d=0)=>v.toLocaleString('en-GB',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+const svg=document.getElementById('chart'), NS="http://www.w3.org/2000/svg";
+const el=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+let hw=SIG1, showLabels=true;
+function hl(id){const g=document.getElementById("bubbles");g.classList.toggle("dim",!!id);g.querySelectorAll(".bub").forEach(b=>b.classList.toggle("on",b.dataset.id===id));document.querySelectorAll("#tbl tbody tr").forEach(r=>r.classList.toggle("on",r.dataset.id===id));}
+
+function render(){
+  svg.innerHTML="";
+  geom();
+  X1=Math.max(2.2,...visibleScen().map(d=>d.rms*1.25));
+  const defs=el('defs');
+  const pat=el('pattern',{id:'hatch',patternUnits:'userSpaceOnUse',width:7,height:7,patternTransform:'rotate(45)'},defs);
+  el('rect',{width:7,height:7,fill:'#fff'},pat);
+  el('line',{x1:0,y1:0,x2:0,y2:7,stroke:'#e7a3b6','stroke-width':2.2},pat);
+  const cp=el('clipPath',{id:'plot'},defs); el('rect',{x:M.l,y:M.t,width:pw,height:ph},cp);
+
+  // zones: grey plot, white corridor
+  el('rect',{x:M.l,y:M.t,width:pw,height:ph,fill:'#dcdcdc'});
+  const g=el('g',{'clip-path':'url(#plot)'});
+  const N=60, up=[], lo=[];
+  for(let i=0;i<=N;i++){const x=X0*Math.pow(X1/X0,i/N), t=(A+B*Math.log(x))*100; up.push([sx(x),sy(t+hw)]); lo.push([sx(x),sy(t-hw)]);}
+  el('path',{d:'M'+up.map(p=>p.join(',')).join('L')+'L'+lo.reverse().map(p=>p.join(',')).join('L')+'Z',fill:'#fff'},g);
+  lo.reverse();
+  el('path',{d:'M'+up.map(p=>p.join(',')).join('L'),stroke:'#1d1f21','stroke-width':1.6,fill:'none'},g);
+  el('path',{d:'M'+lo.map(p=>p.join(',')).join('L'),stroke:'#1d1f21','stroke-width':1.6,fill:'none'},g);
+  el('line',{x1:M.l,x2:M.l+pw,y1:sy(0),y2:sy(0),stroke:'#8c8c8c','stroke-width':1},g);
+
+  // axes
+  const ax=el('g',{class:'ax'});
+  for(let v=-10;v<=90;v+=10){el('line',{x1:M.l-6,x2:M.l,y1:sy(v),y2:sy(v),stroke:'#1d1f21'},ax);el('text',{x:M.l-10,y:sy(v)+4.5,'text-anchor':'end'},ax).textContent=v;}
+  for(const v of [0.02,0.05,0.1,0.2,0.5,1,2,5,10].filter(v=>v<=X1)){el('line',{x1:sx(v),x2:sx(v),y1:M.t+ph,y2:M.t+ph+6,stroke:'#1d1f21'},ax);el('text',{x:sx(v),y:M.t+ph+22,'text-anchor':'middle'},ax).textContent=v;}
+  el('rect',{x:M.l,y:M.t,width:pw,height:ph,fill:'none',stroke:'#1d1f21','stroke-width':1.2});
+  el('text',{x:M.l+pw/2,y:H-12,'text-anchor':'middle',class:'axt'}).textContent='Relative market share (sales in scope)';
+  el('text',{x:16,y:M.t+ph/2,'text-anchor':'middle',class:'axt',transform:`rotate(-90 16 ${M.t+ph/2})`}).textContent='Return on Equity (%)';
+
+  // bubble-size legend, upper-left corner of the plot (nested circles, bottom-aligned)
+  const lr=rr(10000), bx=M.l+10, by=M.t+10, bw=2*lr+100, bh=2*lr+44;
+  const lg=el('g',{'aria-hidden':'true'});
+  el('rect',{x:bx,y:by,width:bw,height:bh,fill:'#fff',stroke:'#1d1f21','stroke-width':0.8},lg);
+  el('text',{x:bx+10,y:by+18,class:'lab','font-weight':600},lg).textContent='Sales in scope 2025';
+  const lcx=bx+12+lr, base=by+bh-10;
+  for(const [v,t] of [[10000,'PLN 10bn'],[5000,'PLN 5bn'],[1000,'PLN 1bn']]){
+    const r=rr(v), top=base-2*r;
+    el('circle',{cx:lcx,cy:base-r,r,fill:'none',stroke:'#1d1f21','stroke-width':1},lg);
+    el('line',{x1:lcx,y1:top,x2:lcx+lr+14,y2:top,stroke:'#1d1f21','stroke-width':0.6,'stroke-dasharray':'2 2'},lg);
+    el('text',{x:lcx+lr+18,y:top+4.5,class:'lab'},lg).textContent=t;
+  }
+
+  const pts=[...CO.map(d=>({...d,kind:'co'})),...visibleScen()].sort((a,b)=>b.s-a.s);
+  const bubbles=el("g",{id:"bubbles"});
+  const labels=el('g');
+  // draw scenarios under Modivo, companies by size desc
+  const order=[...pts.filter(p=>p.kind==='pf'),...pts.filter(p=>p.kind==='co')];
+  for(const d of order){
+    const cx=sx(d.rms), cy=sy(d.roe*100), r=rr(d.s);
+    const b=el('g',{class:"bub","data-id":d.id,tabindex:0,role:'button','aria-label':`${d.full||d.name}: RMS ${d.rms.toFixed(2)}, ROE ${(d.roe*100).toFixed(1)}%, sales PLN ${fmt(d.s)}m`},bubbles);
+    if(d.kind==='pf') el('circle',{cx,cy,r,fill:'url(#hatch)',stroke:'#e7a3b6',"stroke-width":1.5,'fill-opacity':.92},b);
+    else el('circle',{cx,cy,r,fill:d.c,stroke:"#fff","stroke-width":1.2},b);
+    el("circle",{cx,cy,r:r+2.5,fill:"none",stroke:"#1d1f21","stroke-width":1.3,class:"ring"},b);
+    b.addEventListener('mouseenter',e=>{hl(d.id);showTip(d,e);});
+    b.addEventListener('mousemove',e=>moveTip(e));
+    b.addEventListener('mouseleave',()=>{hl(null);hideTip();});
+    b.addEventListener('focus',()=>{hl(d.id);const bb=svg.getBoundingClientRect();showTip(d,{clientX:bb.left+cx/W*bb.width,clientY:bb.top+cy/H*bb.height});});
+    b.addEventListener('blur',()=>{hl(null);hideTip();});
+
+    if(!showLabels && d.id!=="modivo" && d.id!=="lpp" && d.id!=="inditex") continue;
+    const [dx,dy,pos]=d.lab||[Math.round(r*0.75+18),-Math.round(r*0.75+18),"e"];
+    if(pos==='c'){el('text',{x:cx,y:cy+6,'text-anchor':'middle',class:'lab'+(d.lc==='white'?' white':''),'font-size':d.id==='modivo'?17:15,'font-weight':d.id==='modivo'?700:500},labels).textContent=d.name;continue;}
+    const tx=cx+dx, ty=cy+dy;
+    const anchor=pos==='e'?'start':pos==='w'?'end':'middle';
+    const boxed=d.kind==='pf';
+    // leader line from text edge to bubble centre region
+    const lx=pos==='e'?tx-4:pos==='w'?tx+4:tx, ly=pos==='n'?ty+5:pos==='s'?ty-15:ty-5;
+    const ang=Math.atan2(ly-cy,lx-cx), inner=d.kind==='pf'?r*0.55:Math.max(r*0.35,2);
+    el('line',{x1:lx,y1:ly,x2:cx+Math.cos(ang)*inner,y2:cy+Math.sin(ang)*inner,class:'lead'},labels);
+    el('text',{x:tx,y:ty,'text-anchor':anchor,class:'lab'+(boxed?' boxed':'')},labels).textContent=d.name;
+  }
+}
+
+// Tooltip
+const tip=document.getElementById('tip');
+function showTip(d,e){
+  const pf=d.kind==='pf';
+  const rank=[...CO].sort((a,b)=>b.s-a.s).findIndex(c=>c.id===d.id)+1;
+  const t=(A+B*Math.log(d.rms))*100, gap=d.roe*100-t;
+  tip.innerHTML=`<h3>${pf?esc(d.name)+' <span style="color:var(--muted);font-weight:400">(pro forma)</span>':(d.full)}</h3><dl>
+   <dt>Sales in scope 2025</dt><dd>PLN ${fmt(d.s)}m</dd>
+   <dt>Market share</dt><dd>${(d.s/TAM*100).toFixed(1)}%${!pf?` <span style="color:var(--muted)">#${rank}</span>`:''}</dd>
+   <dt>Relative market share</dt><dd>${d.rms.toFixed(2)}×</dd>
+   <dt>Net income</dt><dd>PLN ${fmt(d.ni,1)}m</dd>
+   <dt>Average equity</dt><dd>PLN ${fmt(d.eq,1)}m</dd>
+   <dt>ROE</dt><dd><b>${(d.roe*100).toFixed(1)}%</b></dd>
+   <dt>vs. trend</dt><dd>${gap>=0?'+':''}${gap.toFixed(1)} pp ${Math.abs(gap)<=hw?'(in corridor)':gap>0?'(above)':'(below)'}</dd>
+  </dl>${pf?`<p>Sum of ${esc(d.parts.join(', '))}.${d.syn?` Net income synergies PLN ${fmt(d.syn,1)}m.`:''}${d.loss?` ${d.loss}% of sales lost to overlap.`:''}${d.deq?` Equity adjusted by PLN ${fmt(d.deq,1)}m.`:''}${!d.syn&&!d.loss&&!d.deq?' No synergies.':''} RMS vs. ${esc(d.vsName)} (PLN ${fmt(d.vs)}m).</p>`:d.note?`<p>${d.note}</p>`:''}`;
+  tip.hidden=false; moveTip(e);
+}
+function moveTip(e){const w=tip.offsetWidth,h=tip.offsetHeight;let x=e.clientX+16,y=e.clientY+16;if(x+w>innerWidth-8)x=e.clientX-w-16;if(y+h>innerHeight-8)y=e.clientY-h-16;tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.max(8,y)+'px';}
+function hideTip(){tip.hidden=true;}
+
+// Controls
+const scen=document.getElementById('scen');
+function renderChips(){
+  scen.innerHTML='';
+  if(!scenarios.length){scen.innerHTML='<span class="hint">None yet. Build one below.</span>';return;}
+  for(const s of scenarios){
+    const d=calc(s);
+    const b=document.createElement('span');b.className='chip';b.setAttribute('role','button');b.tabIndex=0;b.setAttribute('aria-pressed',s.on);
+    b.innerHTML=`${esc(d.name)}<span class="x" role="button" tabindex="0" aria-label="Delete ${esc(d.name)}" title="Delete">×</span>`;
+    const toggle=()=>{s.on=!s.on;save();update();};
+    b.onclick=e=>{if(e.target.classList.contains('x')){scenarios=scenarios.filter(x=>x!==s);save();update();}else toggle();};
+    b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(e.target.classList.contains('x')){scenarios=scenarios.filter(x=>x!==s);save();update();}else toggle();}};
+    scen.appendChild(b);
+  }
+}
+function update(){render();renderTable();renderChips();}
+
+// Scenario builder
+const $=id=>document.getElementById(id);
+$('b-acq').innerHTML=CO.map(c=>`<option value="${c.id}"${c.id==='modivo'?' selected':''}>${esc(c.full)}</option>`).join('');
+function renderPartners(){
+  const acq=$('b-acq').value, checked=new Set([...document.querySelectorAll('#b-partners input:checked')].map(i=>i.value));
+  $('b-partners').innerHTML=CO.filter(c=>c.id!==acq).map(c=>`<label><input type="checkbox" id="bp-${c.id}" value="${c.id}"${checked.has(c.id)?' checked':''}>${esc(c.name)}</label>`).join('');
+}
+const num=id=>{const v=$(id).value.trim();return v===''?null:+v;};
+function readForm(){
+  const cname=$('b-cname').value.trim(), cs=num('b-cs'), cni=num('b-cni'), ceq=num('b-ceq');
+  const anyCustom=cname||cs!==null||cni!==null||ceq!==null;
+  let err='';
+  if(anyCustom&&(!cname||cs===null||cni===null||ceq===null)) err='Fill in name, sales, net income and equity for the company not on the chart, or clear all four.';
+  const partners=[...document.querySelectorAll('#b-partners input:checked')].map(i=>i.value);
+  if(!err&&!partners.length&&!anyCustom) err='Pick at least one company to merge with, or add one that is not on the chart.';
+  const sc={id:'u'+Date.now(),acq:$('b-acq').value,partners,custom:anyCustom&&!err?{name:cname,s:cs,ni:cni,eq:ceq}:null,syn:num('b-syn')||0,loss:Math.min(100,Math.max(0,num('b-loss')||0)),deq:num('b-deq')||0,name:$('b-name').value.trim(),lab:null,on:true};
+  if(!err){const d=calc(sc);if(!(d.eq>0))err='Pro forma equity must be above zero to compute ROE.';}
+  return {sc,err};
+}
+function preview(){
+  const {sc,err}=readForm();
+  $('b-err').hidden=true;
+  if(err){$('b-preview').textContent='Pick partners or enter a company to see the pro forma.';return;}
+  const d=calc(sc), gap=d.roe*100-(A+B*Math.log(d.rms))*100;
+  $('b-preview').innerHTML=`<b>${esc(d.name)}</b><br>Sales PLN ${fmt(d.s)}m · ${(d.s/TAM*100).toFixed(1)}% share · RMS ${d.rms.toFixed(2)}× vs. ${esc(d.vsName)}<br>ROE ${(d.roe*100).toFixed(1)}% (${gap>=0?'+':''}${gap.toFixed(1)} pp vs. trend)`;
+}
+$('b-acq').onchange=()=>{renderPartners();preview();};
+$('bf').addEventListener('input',preview);
+$('bf').addEventListener('submit',e=>{
+  e.preventDefault();
+  const {sc,err}=readForm();
+  if(err){$('b-err').textContent=err;$('b-err').hidden=false;return;}
+  scenarios.push(sc);save();update();
+  ['b-cname','b-cs','b-cni','b-ceq','b-name'].forEach(id=>$(id).value='');
+  ['b-syn','b-loss','b-deq'].forEach(id=>$(id).value='0');
+  document.querySelectorAll('#b-partners input').forEach(i=>i.checked=false);
+  $('b-preview').innerHTML=`Added <b>${esc(calc(sc).name)}</b> to the chart.`;
+});
+$('b-reset').onclick=()=>{const keep=scenarios.filter(s=>!DEFAULT_SCEN.some(d=>d.id===s.id));scenarios=[...DEFAULT_SCEN.map(s=>({...s})),...keep];save();update();};
+renderPartners();preview();
+const hwI=document.getElementById('hw'),hwV=document.getElementById('hwv');
+const hwB=document.getElementById('hw1');
+function setHw(v){hw=+v;hwI.value=hw;hwV.textContent=hw.toFixed(1)+' pp';hwB.setAttribute('aria-pressed',Math.abs(hw-SIG1)<0.05);render();renderTable();}
+hwI.oninput=()=>setHw(hwI.value);
+hwB.onclick=()=>setHw(SIG1);
+hw=SIG1;hwI.value=SIG1;hwV.textContent=SIG1.toFixed(1)+' pp';hwB.setAttribute('aria-pressed','true');
+const lb=document.getElementById('labels');
+lb.onclick=()=>{showLabels=!showLabels;lb.setAttribute('aria-pressed',showLabels);lb.textContent=showLabels?'Show':'Hidden';render();};
+
+// Table
+const cols=[["name","Company"],["s","Sales PLN m"],["share","Mkt share"],["rms","RMS"],["ni","Net income"],["eq","Avg equity"],["roe","ROE"],["gap","vs. trend"]];
+let sortK="s",sortD=-1;
+function renderTable(){
+  const thead=document.querySelector('#tbl thead'),tb=document.querySelector('#tbl tbody');
+  thead.innerHTML='<tr>'+cols.map(([k,l])=>`<th data-k="${k}">${l}${sortK===k?(sortD<0?' ↓':' ↑'):''}</th>`).join('')+'</tr>';
+  thead.querySelectorAll('th').forEach(th=>th.onclick=()=>{const k=th.dataset.k;sortD=sortK===k?-sortD:-1;sortK=k;renderTable();});
+  const rows=[...CO,...visibleScen()].map(d=>({...d,share:d.s/TAM,gap:d.roe*100-(A+B*Math.log(d.rms))*100}));
+  rows.sort((a,b)=>(sortK==='name'?a.name.localeCompare(b.name):a[sortK]-b[sortK])*sortD);
+  tb.innerHTML=rows.map(d=>`<tr data-id="${d.id}" class="${d.id==='modivo'?'target':''}"><td>${d.kind==='pf'?esc(d.name)+' <span class="pos">pro forma</span>':d.full}</td><td>${fmt(d.s)}</td><td>${(d.share*100).toFixed(1)}%</td><td>${d.rms.toFixed(2)}</td><td>${fmt(d.ni,1)}</td><td>${fmt(d.eq,1)}</td><td>${(d.roe*100).toFixed(1)}%</td><td>${d.gap>=0?'+':''}${d.gap.toFixed(1)} pp <span class="pos">${Math.abs(d.gap)<=hw?'in':d.gap>0?'above':'below'}</span></td></tr>`).join('');
+  tb.querySelectorAll('tr').forEach(tr=>{tr.onmouseenter=()=>hl(tr.dataset.id);tr.onmouseleave=()=>hl(null);});
+}
+
+// Format (chart width × height). Presets keep the slide height and change the width, so text stays the same size on both slide formats.
+const FMT_KEY='rmsroe.format.v1';
+try{const f=JSON.parse(localStorage.getItem(FMT_KEY));if(f&&f.w>0&&f.h>0){W=f.w;H=f.h;}}catch(e){}
+const fwI=$('fw'),fhI=$('fh'),fv=$('fv');
+function setFmt(w,h,draw=true){
+  W=Math.round(+w);H=Math.round(+h);fwI.value=W;fhI.value=H;
+  fv.textContent=`${W} × ${H} (${(W/H).toFixed(2)}:1)`;
+  document.querySelectorAll('[data-fmt]').forEach(b=>{const [bw,bh]=b.dataset.fmt.split('x').map(Number);b.setAttribute('aria-pressed',bw===W&&bh===H);});
+  try{localStorage.setItem(FMT_KEY,JSON.stringify({w:W,h:H}))}catch(e){}
+  if(draw)render();
+}
+fwI.oninput=()=>setFmt(fwI.value,H);
+fhI.oninput=()=>setFmt(W,fhI.value);
+document.querySelectorAll('[data-fmt]').forEach(b=>b.onclick=()=>{const [w,h]=b.dataset.fmt.split('x');setFmt(w,h);});
+setFmt(W,H,false);
+update();
+</script>
